@@ -44,15 +44,14 @@ Robust and parameter-free plant image segmentation and trait extraction.
 
 
 
-## Inputs 
+## Input 
 
    Individual plant tray image from top view, captured by ANY modern digital camera. 
 
-## Results 
+## Output 
 
-trait.xlsx, trait.csv
+   trait.xlsx: excel file which contains trait computation values.
 
-Excel or csv file which contains trait computation values.
 
 ## Traits summary
 
