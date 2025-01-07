@@ -42,18 +42,6 @@ Robust and parameter-free plant image segmentation and trait extraction.
 <!-- END doctoc generated TOC please keep comment here to allow auto-update -->
 
 
-## Sample workflow
-
-![Pipeline](../main/media/pipeline.png)
-
-![Color analysis](../main/media/color_analysis.png)
-
-![Monitor plant growth](../main/media/monitor_time_growth.gif)
-
-
-
-
-
 
 
 ## Inputs 
