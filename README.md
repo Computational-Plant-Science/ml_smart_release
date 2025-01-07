@@ -55,6 +55,8 @@ Robust and parameter-free plant image segmentation and trait extraction.
 
 ## Traits summary
 
+![Pipeline](../main/media/trait_figure.png)
+
 ![Pipeline](../main/media/trait_table.png)
 
 
