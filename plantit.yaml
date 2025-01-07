@@ -1,0 +1,32 @@
+name: "ml_smart_docker"
+author: Suxing Liu
+public: True
+image: docker://computationalplantscience/ml_smart_release
+commands: /opt/code/smart_release_pipeline.sh
+
+input:
+  kind: directory
+  path:
+  filetypes:
+    - jpg
+    - png
+    
+output:
+  path:
+  include:
+    patterns:
+      - xlsx
+      - png
+      
+logo: media/logo.png
+
+jobqueue:
+  walltime: "01:00:00"
+  memory: "16GB"
+  processes: 1
+  cores: 12
+
+
+env:
+  - LC_ALL=C.UTF-8
+  - LANG=C.UTF-8
