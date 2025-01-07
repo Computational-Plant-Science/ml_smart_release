@@ -1,4 +1,4 @@
-name: "ml_smart_docker"
+name: "ml_smart_release"
 author: Suxing Liu
 public: True
 image: docker://computationalplantscience/ml_smart_release
