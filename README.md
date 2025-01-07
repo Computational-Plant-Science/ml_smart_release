@@ -58,16 +58,13 @@ Robust and parameter-free plant image segmentation and trait extraction.
 ![Pipeline](../main/media/trait_table.png)
 
 
-## Usage in the local environment by cloning the whole GitHub repo 
+## Usage in the local environment by cloning the whole GitHub repository 
 
 sample test
 
 Input: Plant top view images, in jpg or png format
 
 Output: Image results and trait.xlsx (a summary of trait computation values in pixel units). 
-
-
-
 
 
 Example input can be downloaded from the "/sample_test/" folder, which contains top-view images of the same Arabidopsis plant from different time points. 
@@ -211,7 +208,7 @@ Input image requirement:
 Plant top view image captured by any RGB camera, prefer a black background with stable illumination environment. 
 
 
-![Optional Text](../main/media/SPAD_imaging.jpg)
+![Optional Text](../main/media/SPAD_imaging.png)
 
 Setting up plants
 
@@ -230,7 +227,7 @@ Setting up camera
     4. Higher resolution (e.g., an 8-megapixel camera produces a file size that is 2448 x 3264 PPI) is suggested to acquire clear and sharp image data.
 
 
-![Optional Text](../main/media/temp_imaging.jpg)
+![Optional Text](../main/media/temp_imaging.png)
 Setting up the lighting environment
 
     1. Diffuse lighting is suggested. 
