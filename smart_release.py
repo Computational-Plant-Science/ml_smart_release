@@ -3,7 +3,7 @@ Name: trait_extract_parallel.py
 
 Version: 1.0
 
-Summary: Extract plant shoot traits (larea, solidity, max_width, max_height, avg_curv, color_cluster) by paralell processing 
+Summary: Extract plant shoot traits (larea, compactness, max_width, max_height, avg_curv, color_cluster) by paralell processing 
     
 Author: suxing liu
 
@@ -421,6 +421,8 @@ def color_cluster_seg(image, args_colorspace, args_channels, args_num_clusters):
         thresh_cleaned = clear_border(thresh)
     else:
         thresh_cleaned = thresh
+    
+
 
     (numLabels, labels, stats, centroids) = cv2.connectedComponentsWithStats(thresh_cleaned, connectivity = 8)
 
@@ -505,7 +507,7 @@ def color_cluster_seg(image, args_colorspace, args_channels, args_num_clusters):
     
     
     ###################################################################################################
-    size_kernel = 5
+    #size_kernel = 5
     
     #if mask contains mutiple non-connected parts, combine them into one. 
     (contours, hier) = cv2.findContours(img_thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -1065,7 +1067,7 @@ def comp_external_contour(orig, thresh):
     
     area = 0
     
-    solidity = 0
+    compactness = 0
     
     w = h = 0
     
@@ -1151,8 +1153,8 @@ def comp_external_contour(orig, thresh):
                 
                 hull = cv2.convexHull(c)
                 hull_area = cv2.contourArea(hull)
-                solidity = float(area)/hull_area
-                print("solidity = {0:.2f}... \n".format(solidity))
+                compactness = float(area)/hull_area
+                print("compactness = {0:.2f}... \n".format(compactness))
                 
                 
                 extLeft = tuple(c[c[:,:,0].argmin()][0])
@@ -1200,7 +1202,7 @@ def comp_external_contour(orig, thresh):
 
     
     
-    return thresh_combined, trait_img, area, solidity, w, h, longest_dimension
+    return thresh_combined, trait_img, area, compactness, w, h, longest_dimension
     
     
     
@@ -1590,7 +1592,7 @@ def extract_traits(image_file):
     #(b_bright, b_value) = isbright(image_file)
     
     # initilize parameters
-    area = solidity = max_width = max_height = avg_curv = n_leaves = diameter_circle = compactness = longest_dimension = 0
+    area = compactness = max_width = max_height = avg_curv = n_leaves = diameter_circle = compactness = longest_dimension = 0
         
 
     ################################################################################
@@ -1710,10 +1712,11 @@ def extract_traits(image_file):
         
         print("Image is black")
         
-        area=solidity=max_width=max_height=n_leaves=0
+        area=compactness=max_width=max_height=n_leaves=0
         
         color_ratio = hex_colors = color_diff_list = [0,0,0]
 
+        sys.exit(1)
         
     else:
         
@@ -1734,9 +1737,8 @@ def extract_traits(image_file):
         
         ###########################################################################################################
          #compute external contour, shape info  
-        (thresh_combined, trait_img, area, solidity, max_width, max_height, longest_dimension) = comp_external_contour(ROI_region, thresh.copy())
+        (thresh_combined, trait_img, area, compactness, max_width, max_height, longest_dimension) = comp_external_contour(ROI_region, thresh.copy())
 
-        compactness = min(max_width,max_height)/max(max_width,max_height)
         
         
         # update mask
@@ -1976,7 +1978,7 @@ def extract_traits(image_file):
         
         #print("hex_colors = {}".format(hex_colors))
         
-        #return image_file_name, QR_data, area, solidity, max_width, max_height, avg_curv, n_leaves, color_ratio, hex_colors, leaf_index_rec, area_rec, curv_rec, solidity_rec, major_axis_rec, minor_axis_rec, leaf_color_ratio_rec, leaf_color_value_rec
+        #return image_file_name, QR_data, area, compactness, max_width, max_height, avg_curv, n_leaves, color_ratio, hex_colors, leaf_index_rec, area_rec, curv_rec, compactness_rec, major_axis_rec, minor_axis_rec, leaf_color_ratio_rec, leaf_color_value_rec
         
         longest_axis = max(max_width, max_height)
         
@@ -1986,10 +1988,10 @@ def extract_traits(image_file):
         cm_pixel_ratio = diameter_circle
     
     
-    #return image_file_name, b_value, area, solidity, longest_axis, diameter_circle, cm_pixel_ratio, n_leaves, hex_colors, color_ratio, color_diff_list
+    #return image_file_name, b_value, area, compactness, longest_axis, diameter_circle, cm_pixel_ratio, n_leaves, hex_colors, color_ratio, color_diff_list
     
     
-    return area, solidity, max_width, max_height, compactness, longest_dimension, n_leaves, rgb_colors, hex_colors, color_ratio, color_diff_list, thresh, roi_image, trait_img, img_as_ubyte(image_skeleton), labeled_img, counts.values(), masked_image_ori, clustered_BGR, clustered_levels
+    return area, compactness, max_width, max_height, longest_dimension, rgb_colors, hex_colors, color_ratio, color_diff_list, thresh, roi_image, trait_img, img_as_ubyte(image_skeleton), labeled_img, counts.values(), masked_image_ori, clustered_BGR, clustered_levels
     
 
 
@@ -2072,23 +2074,21 @@ def write_excel_output(trait_file, result_list):
 
         sheet.cell(row = 1, column = 1).value = 'filename'
         sheet.cell(row = 1, column = 2).value = 'leaf_area'
-        sheet.cell(row = 1, column = 3).value = 'solidity'
+        sheet.cell(row = 1, column = 3).value = 'compactness'
         sheet.cell(row = 1, column = 4).value = 'max_width'
         sheet.cell(row = 1, column = 5).value = 'max_height'
-        sheet.cell(row = 1, column = 6).value = 'compactness'
-        sheet.cell(row = 1, column = 7).value = 'longest_dimension'
-        #sheet.cell(row = 1, column = 8).value = 'number_leaf'
-        sheet.cell(row = 1, column = 8).value = 'color_cluster_1_hex_value'
-        sheet.cell(row = 1, column = 9).value = 'color_cluster_1_ratio'
-        sheet.cell(row = 1, column = 10).value = 'color_cluster_1_difference'
-        sheet.cell(row = 1, column = 11).value = 'color_cluster_2_hex_value'
-        sheet.cell(row = 1, column = 12).value = 'color_cluster_2_ratio'
-        sheet.cell(row = 1, column = 13).value = 'color_cluster_2_difference'
-        sheet.cell(row = 1, column = 14).value = 'color_cluster_3_hex_value'
-        sheet.cell(row = 1, column = 15).value = 'color_cluster_3_ratio'
-        sheet.cell(row = 1, column = 16).value = 'color_cluster_3_difference'
+        sheet.cell(row = 1, column = 6).value = 'longest_dimension'
+        sheet.cell(row = 1, column = 7).value = 'color_cluster_1_hex_value'
+        sheet.cell(row = 1, column = 8).value = 'color_cluster_1_ratio'
+        sheet.cell(row = 1, column = 9).value = 'color_cluster_1_difference'
+        sheet.cell(row = 1, column = 10).value = 'color_cluster_2_hex_value'
+        sheet.cell(row = 1, column = 11).value = 'color_cluster_2_ratio'
+        sheet.cell(row = 1, column = 12).value = 'color_cluster_2_difference'
+        sheet.cell(row = 1, column = 13).value = 'color_cluster_3_hex_value'
+        sheet.cell(row = 1, column = 14).value = 'color_cluster_3_ratio'
+        sheet.cell(row = 1, column = 15).value = 'color_cluster_3_difference'
         
-        #return image_file_name, area, solidity, max_width, max_height, n_leaves, hex_colors, color_ratio, color_diff_list
+        #return image_file_name, area, compactness, max_width, max_height, n_leaves, hex_colors, color_ratio, color_diff_list
         
     for row in result_list:
         sheet.append(row)
@@ -2119,6 +2119,7 @@ if __name__ == '__main__':
     ap.add_argument("-d", '--debug', dest = 'debug', type = int, required = False,  default = 1, help = "Whehter save image results or not, 1 = yes, 0 = no")
     ap.add_argument("-ai", '--AI', dest = 'AI', type = int, required = False,  default = 1, help = "Whehter use AI model or not, 1 = yes, 0 = no")
     ap.add_argument("-mc", '--merger_contour', dest = 'merger_contour', type = int, required = False,  default = 2, help = "merger_contour threshold, 1, 2, 3")
+    ap.add_argument("-sk", '--size_kernel', dest = 'size_kernel', type = int, required = False,  default = 5, help = "kernel size to dilate the mask")
     
     #ap.add_argument("-cc", "--cue_color", dest = "cue_color", type = int, required = False,  default = 0, help="use color cue to detect plant object")
     #ap.add_argument("-cl", "--cue_loc", dest = "cue_loc", type = int, required = False,  default = 0, help="use location cue to detect plant object")
@@ -2191,6 +2192,7 @@ if __name__ == '__main__':
     
     merger_contour = args['merger_contour']
     
+    size_kernel = args['size_kernel']
 
     #accquire image file list
     imgList = sorted(files)
@@ -2213,10 +2215,10 @@ if __name__ == '__main__':
         (file_path, image_file_name, basename) = get_file_info(image)
             
         # main pipeline
-        (area, solidity, max_width, max_height, compactness, longest_dimension, n_leaves, rgb_colors, hex_colors, color_ratio, color_diff_list, thresh, roi_image, trait_img, image_skeleton, labeled_img, counts_values, masked_image_ori, clustered_BGR, clustered_levels) = extract_traits(image)
+        (area, compactness, max_width, max_height, longest_dimension, rgb_colors, hex_colors, color_ratio, color_diff_list, thresh, roi_image, trait_img, image_skeleton, labeled_img, counts_values, masked_image_ori, clustered_BGR, clustered_levels) = extract_traits(image)
         
         
-        result_list.append([image_file_name, area, solidity, max_width, max_height, compactness, longest_dimension,  
+        result_list.append([image_file_name, area, compactness, max_width, max_height, longest_dimension,  
                             hex_colors[0], color_ratio[0], color_diff_list[0], 
                             hex_colors[1], color_ratio[1], color_diff_list[1], 
                             hex_colors[2], color_ratio[2], color_diff_list[2]])
@@ -2288,7 +2290,7 @@ if __name__ == '__main__':
     
     #output in command window in a sum table
  
-    #table = tabulate(result_list, headers = ['filename', 'area', 'solidity', 'max_width', 'max_height' ,'avg_curv', 'n_leaves', 'cluster 1', 'cluster 2', 'cluster 3', 'cluster 4', 'cluster 1 hex value', 'cluster 2 hex value', 'cluster 3 hex value', 'cluster 4 hex value'], tablefmt = 'orgtbl')
+    #table = tabulate(result_list, headers = ['filename', 'area', 'compactness', 'max_width', 'max_height' ,'avg_curv', 'n_leaves', 'cluster 1', 'cluster 2', 'cluster 3', 'cluster 4', 'cluster 1 hex value', 'cluster 2 hex value', 'cluster 3 hex value', 'cluster 4 hex value'], tablefmt = 'orgtbl')
 
     #print(table + "\n")
     
