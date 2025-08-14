@@ -77,7 +77,7 @@ A video tutorial can be found in here [video tutorial for SMART](https://youtu.b
 
 [Docker](https://www.docker.com/) is suggested to run this project in a Unix environment.
 
-Ther is no need to insatll any libraries with specific version. 
+Ther is no need to insatll any library with specific version. 
 
 1. Download prebuilt docker container from DockerHub 
 
