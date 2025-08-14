@@ -60,20 +60,10 @@ Robust and parameter-free plant image segmentation and trait extraction.
 ![Pipeline](../main/media/trait_table.png)
 
 
-## Usage in the local environment by cloning the whole GitHub repository 
-
-sample test
-
-Input: Plant top view images, in jpg or png format
-
-Output: Image results and trait.xlsx (a summary of trait computation values in pixel units). 
-
-
-Example input can be downloaded from the "/sample_test/" folder, which contains top-view images of the same Arabidopsis plant from different time points. 
 
 
 
-## For users with no knowledeg of Linux system, please use 
+## For windows users, please use 
 
 https://plantit.cyverse.org/.
 
@@ -182,6 +172,18 @@ the docker recipe file named as Dockerfile, and it was configured to help built 
 
 
 ##  For users with in depth Linux system
+
+##  Usage in the local environment by cloning the whole GitHub repository 
+
+sample test
+
+Input: Plant top view images, in jpg or png format
+
+Output: Image results and trait.xlsx (a summary of trait computation values in pixel units). 
+
+
+Example input can be downloaded from the "/sample_test/" folder, which contains top-view images of the same Arabidopsis plant from different time points. 
+
 
 1. Download the repo into the local host PC to the $host_path:
 
