@@ -146,14 +146,14 @@ the docker recipe file named as Dockerfile, and it was configured to help built 
     docker build -t smart_container_local -f Dockerfile .
 
 ```
-2. After the successfuly built, Run the docker container build locally
+2. After the successfuly built, Run the docker container named as "smart_container_local" locally
     
 ```bash
 
     docker run -v  /$path_to_test_image:/images -it smart_container_local
 
 ```
-    For example, to run the sample test inside this repo, under the folder "sample_test", first locate the local path 
+3. For example, to run the sample test inside this repo, under the folder "sample_test", first locate the local path 
 
 ```bash
 
@@ -161,13 +161,19 @@ the docker recipe file named as Dockerfile, and it was configured to help built 
 
 ```
 
-    then run the pipeline inside the container with mounted input images:
+4. then run the pipeline inside the container with mounted input images:
+
 
 ```bash
     
     python3 /opt/code/ml_smart_release.py -p /images/ -o /images/result/ -ai 1
     
 ```
+
+
+
+
+
 
 
 
