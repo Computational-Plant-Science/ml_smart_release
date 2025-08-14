@@ -63,11 +63,11 @@ Robust and parameter-free plant image segmentation and trait extraction.
 
 
 
-## For windows users, please use 
+## For Windows users, please use 
 
 https://plantit.cyverse.org/.
 
-A video tutorial can be found in here [video tutorial for SMART](https://youtu.be/IZkeKkrcOCo?si=4jsQrWmNdpTZkjNa)
+A video tutorial can be found here [video tutorial for SMART](https://youtu.be/IZkeKkrcOCo?si=4jsQrWmNdpTZkjNa)
 
 
 
@@ -77,9 +77,9 @@ A video tutorial can be found in here [video tutorial for SMART](https://youtu.b
 
 [Docker](https://www.docker.com/) is suggested to run this project in a Unix environment.
 
-Ther is no need to insatll any library with specific version. 
+There is no need to install any library with a specific version. 
 
-1. Download prebuilt docker container from DockerHub 
+1. Download prebuilt Docker container from DockerHub 
 
 ```bash
 
@@ -92,17 +92,17 @@ Ther is no need to insatll any library with specific version.
 
 ```bash
 
-   Input image data folder: prepare with your image data in jpg or png format in a folder. 
+   Input image data folder: Prepare your image data in jpg or png format in a folder. 
     
-   Obtain the absolute path to your input folder contains images, such as /$path_to_test_image
+   Obtain the absolute path to your input folder that contains images, such as /$path_to_test_image
    
-   create an empty folder inside your input folder, named as "result", the absolute path to your result folder
+   Create an empty folder inside your input folder, named "result". The absolute path to your result folder
    
    will be: /$path_to_test_image/result
    
 ```
 
-3. Run the docker container with your test images
+3. Run the Docker container with your test images
 
 
 ```bash
@@ -118,11 +118,11 @@ Ther is no need to insatll any library with specific version.
     
 ```
 
-   Run the prebuilt docker container from DockerHub, "-v /$path_to_test_image:/images" was to bind your local image data folder path(/$path_to_test_image) into the container path(/images).
+   Run the prebuilt Docker container from DockerHub, "-v /$path_to_test_image:/images" was to bind your local image data folder path(/$path_to_test_image) into the container path(/images).
    
-   Then all the compuation was perfomred inside the container, results will be generated inisde the container path(/images), in fact, it was saved in your local path(/$path_to_test_image).
+   Then all the computation was performed inside the container, results will be generated inside the container path(/images), in fact, it was saved in your local path(/$path_to_test_image).
    
-   Note: The "/" at the end of the path was NOT needed when mounting a host directory into a Docker container. Above command mount the local directory "/$path_to_test_image" inside the container path "/images"
+   Note: The "/" at the end of the path was NOT needed when mounting a host directory into a Docker container. Above command mounts the local directory "/$path_to_test_image" inside the container path "/images"
 Reference: https://docs.docker.com/storage/bind-mounts/
  
    
@@ -130,14 +130,14 @@ Reference: https://docs.docker.com/storage/bind-mounts/
 
 Results will be generated in the same input folder, trait.xlsx, which contains trait computation results.
 
-The other folder with the same name of input images contains all related image results for visualization purposes. 
+The other folder with the same name of the input images contains all related image results for visualization purposes. 
 
-They are processed copies of the original images, all the image content information was processed in the proces of traits computation. 
+They are processed copies of the original images, and all the image content information was processed in the process of traits computation. 
 
 
-For advanced users, you can choose to build your local docker container instead of using our prebuilt docker container. 
+For advanced users, you can choose to build your local Docker container instead of using our prebuilt Docker container. 
 
-the docker recipe file named as Dockerfile, and it was configured to help built the container with all the necessary libraries. 
+The Docker recipe file is named Dockerfile, and it was configured to help build the container with all the necessary libraries. 
 
 1. Build your local container
 
@@ -146,7 +146,7 @@ the docker recipe file named as Dockerfile, and it was configured to help built 
     docker build -t smart_container_local -f Dockerfile .
 
 ```
-2. After the successfuly built, Run the docker container named as "smart_container_local" locally
+2. After the successful build, run the Docker container named "smart_container_local" locally
     
 ```bash
 
@@ -161,7 +161,7 @@ the docker recipe file named as Dockerfile, and it was configured to help built 
 
 ```
 
-4. then run the pipeline inside the container with mounted input images:
+4. Then run the pipeline inside the container with mounted input images:
 
 
 ```bash
@@ -177,13 +177,13 @@ the docker recipe file named as Dockerfile, and it was configured to help built 
 
 
 
-##  For users with in depth Linux system
+##  For users with in in-depth Linux system
 
 ##  Usage in the local environment by cloning the whole GitHub repository 
 
 sample test
 
-Input: Plant top view images, in jpg or png format
+Input: Plant top-view images, in jpg or png format
 
 Output: Image results and trait.xlsx (a summary of trait computation values in pixel units). 
 
@@ -211,7 +211,7 @@ Example input can be downloaded from the "/sample_test/" folder, which contains 
 
 3. Prepare your input image folder path and output path
 
-   here we use the sample images inside the repository as input image data, the path was:
+   Here we use the sample images inside the repository as input image data. The path was:
 
 ```bash
 
@@ -221,7 +221,7 @@ Example input can be downloaded from the "/sample_test/" folder, which contains 
 
 4. compute traits:
 
-   please define the input path which coantains image data (png or jpg formats) and create an output folder path to save all the image results and an excel file result:
+   Please define the input path, which contains image data (png or jpg formats) and create an output folder path to save all the image results and an Excel file result:
 
 ```bash
 
@@ -230,7 +230,7 @@ Example input can be downloaded from the "/sample_test/" folder, which contains 
    python3 /$host_path/ml_smart_release/smart_release.py -i /$host_path/SMART/ml_smart_release/sample_test/ -o /$host_path/SMART/ml_smart_release/sample_test/result/`
 
 ```
-   If no output folder path was specified, default output path will be the same as input path. 
+   If no output folder path was specified, the default output path will be the same as the input path. 
 
 
 
@@ -239,12 +239,12 @@ Example input can be downloaded from the "/sample_test/" folder, which contains 
 ## Collaboration
 
 
-The SMART pipeline has been integrated into CyVerse cloud computing-based website: PlantIT (https://plantit.cyverse.org/)
+The SMART pipeline has been integrated into the CyVerse cloud computing-based website: PlantIT (https://plantit.cyverse.org/)
 
 CyVerse users can upload data and run the SMART pipeline for free. 
 
 
-The SMART pipeline has also been applied in collaboration with following research institutes and companies: 
+The SMART pipeline has also been applied in collaboration with the following research institutes and companies: 
 
 1. Dr. David G. Mendoza-Cozatl at [University of Missouri](https://cafnr.missouri.edu/person/david-mendoza-cozatl/)
 
@@ -265,25 +265,25 @@ The SMART pipeline has also been applied in collaboration with following researc
 
 Input image requirement:
 
-Plant top view image captured by any RGB camera, prefer a black background with stable illumination environment. 
+Plant top view image captured by any RGB camera, preferably with a black background and with a constant illumination environment. 
 
-
+stance
 ![Optional Text](../main/media/SPAD_imaging.png)
 
 Setting up plants
 
     1. Place one plant in one tray.
     2. Use black color mesh to cover the soil.
-    3. Place the maker object on the left corner of the tray.
-    4. Prefer the plant did not grow out of the boundaries of the tray.
+    3. Place the maker object in the left corner of the tray.
+    4. Prefer the plant not to grow out of the boundaries of the tray.
 
 
 ![Optional Text](../main/media/camera.jpg)
-Setting up camera
+Setting up the camera
 
     1. The camera lens should be parallel to the plant surface to capture an undistorted top view. 
     2. The plant object should be in the center of the image and within the focus of the camera lens.
-    3. The depth of field should cover the different layers of the plant leaves. 
+    3. The depth of the field should cover the different layers of the plant leaves. 
     4. Higher resolution (e.g., an 8-megapixel camera produces a file size that is 2448 x 3264 PPI) is suggested to acquire clear and sharp image data.
 
 
