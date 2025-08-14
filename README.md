@@ -72,6 +72,117 @@ Output: Image results and trait.xlsx (a summary of trait computation values in p
 Example input can be downloaded from the "/sample_test/" folder, which contains top-view images of the same Arabidopsis plant from different time points. 
 
 
+
+## For users with no knowledeg of Linux system, please use 
+
+https://plantit.cyverse.org/.
+
+A video tutorial can be found in here [video tutorial for SMART](https://youtu.be/IZkeKkrcOCo?si=4jsQrWmNdpTZkjNa)
+
+
+
+
+## Usage for Docker container (Suggested)
+
+
+[Docker](https://www.docker.com/) is suggested to run this project in a Unix environment.
+
+Ther is no need to insatll any libraries with specific version. 
+
+1. Download prebuilt docker container from DockerHub 
+
+```bash
+
+    docker pull computationalplantscience/ml_smart_release
+    
+```
+
+
+2. Prepare your test images
+
+```bash
+
+   Input image data folder: prepare with your image data in jpg or png format in a folder. 
+    
+   Obtain the absolute path to your input folder contains images, such as /$path_to_test_image
+   
+   create an empty folder inside your input folder, named as "result", the absolute path to your result folder
+   
+   will be: /$path_to_test_image/result
+   
+```
+
+3. Run the docker container with your test images
+
+
+```bash
+
+   docker run -v /$path_to_test_image:/images -it computationalplantscience/ml_smart_release
+    
+```
+
+
+```bash
+    
+   python3 /opt/code/smart_release.py -p /images/ -o /images/result/ -ai 1
+    
+```
+
+   Run the prebuilt docker container from DockerHub, "-v /$path_to_test_image:/images" was to bind your local image data folder path(/$path_to_test_image) into the container path(/images).
+   
+   Then all the compuation was perfomred inside the container, results will be generated inisde the container path(/images), in fact, it was saved in your local path(/$path_to_test_image).
+   
+   Note: The "/" at the end of the path was NOT needed when mounting a host directory into a Docker container. Above command mount the local directory "/$path_to_test_image" inside the container path "/images"
+Reference: https://docs.docker.com/storage/bind-mounts/
+ 
+   
+
+
+Results will be generated in the same input folder, trait.xlsx, which contains trait computation results.
+
+The other folder with the same name of input images contains all related image results for visualization purposes. 
+
+They are processed copies of the original images, all the image content information was processed in the proces of traits computation. 
+
+
+For advanced users, you can choose to build your local docker container instead of using our prebuilt docker container. 
+
+the docker recipe file named as Dockerfile, and it was configured to help built the container with all the necessary libraries. 
+
+1. Build your local container
+
+```bash
+
+    docker build -t smart_container_local -f Dockerfile .
+
+```
+2. After the successfuly built, Run the docker container build locally
+    
+```bash
+
+    docker run -v  /$path_to_test_image:/images -it smart_container_local
+
+```
+    For example, to run the sample test inside this repo, under the folder "sample_test", first locate the local path 
+
+```bash
+
+    docker run -v /$path_to_ml_smart_release_repo/ml_smart_release/sample_test:/images -it smart_container_local
+
+```
+
+    then run the pipeline inside the container with mounted input images:
+
+```bash
+    
+    python3 /opt/code/ml_smart_release.py -p /images/ -o /images/result/ -ai 1
+    
+```
+
+
+
+##  For users with in depth Linux system
+
 1. Download the repo into the local host PC to the $host_path:
 
 ```bash
@@ -81,20 +192,26 @@ Example input can be downloaded from the "/sample_test/" folder, which contains 
 ```
 
    Now you should have a clone of the SMART pipeline source code in your local PC, the relative folder path was:
-```
+
+```bash
    $host_path/ml_smart_release/
    
 ```
 
-2. Prepare your input image folder path and output path
+2. Install all the libraries listed in "Dockerfile" inside the repo.
+
+
+3. Prepare your input image folder path and output path
 
    here we use the sample images inside the repository as input image data, the path was:
-```
+
+```bash
+
    /$host_path/ml_smart_release/sample_test/
    
 ```
 
-2. compute traits:
+4. compute traits:
 
    please define the input path which coantains image data (png or jpg formats) and create an output folder path to save all the image results and an excel file result:
 
@@ -111,71 +228,6 @@ Example input can be downloaded from the "/sample_test/" folder, which contains 
 
 
 
-
-## Usage for Docker container (Suggested)
-
-
-[Docker](https://www.docker.com/) is suggested to run this project in a Unix environment.
-
-1. Download prebuilt docker container from DockerHub 
-
-```bash
-
-    docker pull computationalplantscience/smart
-```
-
-2. Build your local container
-
-```bash
-
-    docker build -t smart_container -f Dockerfile .
-
-```
-
-3. Run the docker container with your test images
-
-
-   Run the prebuilt docker container from DockerHub 
-```bash
-
-    docker run -v /$path_to_test_image:/images -it computationalplantscience/ml_smart_release
-    
-```
-    or Run the docker container build locally
-    
-```bash
-
-    docker run -v  /home/suxing/SMART/sample_test:/images -it smart_container
-
-Note: The "/" at the end of the path was NOT needed when mounting a host directory into a Docker container. Above command mount the local directory "/$path_to_test_image" inside the container path "/images"
-Reference: https://docs.docker.com/storage/bind-mounts/
-```
-
-    For example, to run the sample test inside this repo, under the folder "sample_test", first locate the local path 
-```
-    docker run -v /$path_to_ml_smart_release_repo/ml_smart_release/sample_test:/images -it computationalplantscience/ml_smart_release
-```
-
-    then run the pipeline inside the container with mounted input images:
-``` 
-    python3 /opt/code/smart_release.py -p /images/ -o /images/result/ -ai 1
-    
-```
-    or 
-```
-    /$path_to_ml_smart_release_repo/ml_smart_release/sample_test:/images -it computationalplantscience/ml_smart_release  python3 /opt/code/smart_release.py -p /images/ -o /images/results/ -ai 1
-
-```
-
-
-
-Results will be generated in the same input folder, trait.xlsx and trait.csv, which contains trait computation results.
-
-The other folder with the same name of input images contains all related image results for visualization purposes. 
-
-They are processed copies of the original images, all the image content information was processed and extracted as traits information. 
-
-
 ## Collaboration
 
 
@@ -188,15 +240,13 @@ The SMART pipeline has also been applied in collaboration with following researc
 
 1. Dr. David G. Mendoza-Cozatl at [University of Missouri](https://cafnr.missouri.edu/person/david-mendoza-cozatl/)
 
-2. Dr. Kranthi Varala at [Purdue University](https://www.purdue.edu/gradschool/pulse/groups/profiles/faculty/varala.html) 
+2. Dr. Filipe Matias at [Syngenta](https://www.linkedin.com/in/filipe-matias-27bab5199/)
 
-3. Dr. Filipe Matias at [Syngenta](https://www.linkedin.com/in/filipe-matias-27bab5199/)
+3. Dr. Tara Enders at [Hofstra University](https://sites.google.com/view/enders-lab/people?pli=1)
 
-4. Dr. Tara Enders at [Hofstra University](https://sites.google.com/view/enders-lab/people?pli=1)
+4. Briony Parker at [Rothamsted Research](https://repository.rothamsted.ac.uk/staff/98225/briony-parker)
 
-5. Briony Parker at [Rothamsted Research](https://repository.rothamsted.ac.uk/staff/98225/briony-parker)
-
-6. Dr. Fiona L. Goggin at [University of Arkansas](https://enpl.uark.edu/people/faculty/uid/fgoggin/name/Fiona+Goggin/)
+5. Dr. Fiona L. Goggin at [University of Arkansas](https://enpl.uark.edu/people/faculty/uid/fgoggin/name/Fiona+Goggin/)
 
 
 <br/><br/> 
